@@ -34,7 +34,7 @@ public class User {
     public User(Player player) {
         this.player = player;
         this.uuid = player.getUuid();
-        this.userName = PlainTextComponentSerializer.plainText().serialize(player.getName());
+        this.userName = player.getUsername();
         this.checks = new ArrayList<>();
         this.movementProcessor = new MovementProcessor(this);
     }
