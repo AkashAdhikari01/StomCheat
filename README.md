@@ -23,7 +23,7 @@ If you're searching for a real anticheat solution for your server, contact me @A
 
 ## Creating Checks
 To create a check, simply create a class that extends `Check` and annotate it with `@CheckData`. Then override the `onPacket` method to handle incoming or outgoing packets.
-After you've created your check, make sure to register it with the 'CheckManager' like so:
+After you've created your check, make sure to register it with the `CheckManager` like so:
 
 ```java
 StomCheat stomCheat = /*your stomcheat insance*/
