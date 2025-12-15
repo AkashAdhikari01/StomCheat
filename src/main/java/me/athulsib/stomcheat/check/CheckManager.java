@@ -1,6 +1,7 @@
 package me.athulsib.stomcheat.check;
 
 import lombok.Getter;
+import me.athulsib.stomcheat.StomCheat;
 import me.athulsib.stomcheat.user.User;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
@@ -25,7 +26,10 @@ public class CheckManager {
     }
 
     public void registerDefaultChecks() {
-        registerChecksFromPackage("me.athulsib.stomcheat.check.impl");
+        StomCheat stomCheat = StomCheat.getInstance();
+        if (stomCheat.getAcConfig().loadDefaultChecks()) {
+            registerChecksFromPackage("me.athulsib.stomcheat.check.impl");
+        }
     }
 
     public void registerCheck(Class<? extends Check> checkClass) {
