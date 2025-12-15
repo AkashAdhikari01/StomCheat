@@ -21,7 +21,7 @@ public class UserManager {
         user.setThread(assigned);
 
         this.userMap.put(player.getUuid(), user);
-        StomCheat.getInstance().getCheckManager().loadToPlayer(user);
+        StomCheat.getInstance().getCheckManager().loadAllChecksToPlayer(user);
     }
 
     public void removeUser(Player player) {

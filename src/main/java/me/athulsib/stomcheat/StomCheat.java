@@ -39,9 +39,11 @@ public class StomCheat {
 
             this.checkManager = new CheckManager();
 
+            //TODO make this configurable
             //Load the checks separate from the player to make it more accessible
-            this.checkManager.loadChecks();
+            this.checkManager.registerDefaultChecks();
 
+            //TODO Add more commands
             // Register commands
             MinecraftServer.getCommandManager().register(new ACInfoCommand());
 

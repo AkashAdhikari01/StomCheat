@@ -15,17 +15,27 @@ public class CheckManager {
     @Getter
     public final List<Class<? extends Check>> checkClasses = new ArrayList<>();
 
-    // yes im that lazy
-    public void loadChecks() {
+    public void registerChecksFromPackage(String packageName) {
         Reflections reflections = new Reflections(new ConfigurationBuilder()
-                .forPackage("me.athulsib.stomcheat.check.impl")
+                .forPackage(packageName)
                 .addScanners(Scanners.SubTypes));
 
         Set<Class<? extends Check>> checkClassesSet = reflections.getSubTypesOf(Check.class);
         checkClasses.addAll(checkClassesSet);
     }
 
-    public void loadToPlayer(User user) {
+    public void registerDefaultChecks() {
+        registerChecksFromPackage("me.athulsib.stomcheat.check.impl");
+    }
+
+    public void registerCheck(Class<? extends Check> checkClass) {
+        if (!checkClasses.contains(checkClass)) {
+            checkClasses.add(checkClass);
+        }
+    }
+
+    public void loadAllChecksToPlayer(User user) {
+        user.getChecks().clear();
         List<Check> userChecks = new ArrayList<>();
         for (Class<? extends Check> checkClass : checkClasses) {
             try {
@@ -37,5 +47,21 @@ public class CheckManager {
             }
         }
         user.getChecks().addAll(userChecks);
+    }
+
+    public void loadCheckToPlayer(User user, Class<? extends Check> checkClass) {
+        try {
+            Check check = checkClass.getDeclaredConstructor().newInstance();
+            check.setUser(user);
+            user.getChecks().add(check);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void reloadChecks() {
+        checkClasses.clear();
+        registerDefaultChecks();
+
     }
 }

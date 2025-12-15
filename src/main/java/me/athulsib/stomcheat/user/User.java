@@ -26,6 +26,7 @@ public class User {
 
     private final List<Check> checks;
 
+    //TODO Make processor registration order configurable & add custom processor support
     private MovementProcessor movementProcessor;
 
     // Assigned execution thread for this user
