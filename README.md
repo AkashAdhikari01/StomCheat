@@ -104,44 +104,19 @@ public class ExampleProcessor extends Processor {
 }
 ```
 
-## "Configuration" System
-This is a very simple project to help you create your own anticheat, so it does not include a real file based configuration system.
-However, variables are stored in `StomCheatConfig` class, which you can just modify. 
-```java
-public class StomCheatConfig {
-    private int threadCount = Math.min(Runtime.getRuntime().availableProcessors(), 16);
-
-    private String alert = "&6&lStomCheat &7&o>> &6%player% &fhas failed &6%check% %type% &8[VL:&r%vl% &7/ %punishvl% &8]";
-
-    private String hover =
-            """
-            &6Details:
-            &eCheck: &a%check%
-            &eType: &a%type%
-            &eViolations: &a%vl%
-            &ePing: &a%ping%ms
-            &eDescription: &a%description%
-            &eData: &a%data%
-            """;
-
-    String broadcast =
-            """
-            
-            &6&lStomCheat &8>> &e%s &bhas been removed from the Network
-            &eReason: &cUnfair Advantage
-            
-            """;
-
-    String punishKick =
-            """
-
-            &cYou have been removed from the Network
-            &c[StomCheat] Unfair Advantage
-
-            """;
-
+## Configuration System
+The Anticheat creates a ```stomcheat_config.json``` where you can adjust the following values:
+```json
+{
+  "loadDefaultChecks": true,
+  "loadDefaultProcessors": true,
+  "threadCount": 16,
+  "alertMessage": "&6&lStomCheat &7&o>> &6%player% &fhas failed &6%check% %type% &8[VL:&r%vl%&7/%punishvl%&8] %experimental%",
+  "experimental": "&c(DEV)",
+  "hover": "&6Details:\n&eCheck: &a%check%\n&eType: &a%type%\n&eViolations: &a%vl%\n&ePing: &a%ping%ms\n&eDescription: &a%description%\n&eData: &a%data%\n",
+  "broadcast": "\n&6&lStomCheat &8>> &e%s &bhas been removed from the Network\n&eReason: &cUnfair Advantage\n\n",
+  "kickMessage": "\n&cYou have been removed from the Network\n&c[StomCheat] Unfair Advantage\n\n"
 }
-
 ```
 
 
