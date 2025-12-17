@@ -1,6 +1,6 @@
 package me.athulsib.stomcheat.config;
 
-public record ACConfig(
+public record Config(
         boolean loadDefaultChecks,
         boolean loadDefaultProcessors,
         int threadCount,
