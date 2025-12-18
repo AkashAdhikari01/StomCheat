@@ -4,6 +4,7 @@ import me.athulsib.stomcheat.StomCheat;
 import me.athulsib.stomcheat.user.User;
 import lombok.Getter;
 
+import java.lang.Thread;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,8 +16,8 @@ public class ThreadManager {
     private final int threads = StomCheat.getInstance() != null && StomCheat.getInstance().getConfig() != null
             ? StomCheat.getInstance().getConfig().threadCount()
             : Math.min(Runtime.getRuntime().availableProcessors(), 16);
-    private final List<Thread> userThreads = new CopyOnWriteArrayList<>();
-    private final Map<User, Thread> playerThreadMap = new ConcurrentHashMap<>();
+    private final List<java.lang.Thread> userThreads = new CopyOnWriteArrayList<>();
+    private final Map<User, java.lang.Thread> playerThreadMap = new ConcurrentHashMap<>();
     private final Map<String, java.lang.Thread> workerThreadMap = new ConcurrentHashMap<>();
 
     public ThreadManager() {
@@ -34,18 +35,18 @@ public class ThreadManager {
                 workerThreadMap.put(workerName, t);
                 return t;
             });
-            Thread thread = new Thread(executor, workerName);
+            java.lang.Thread thread = new java.lang.Thread(executor, workerName);
             userThreads.add(thread);
         }
     }
 
-    public Thread assignThread(User playerData) {
-        Thread assignedThread = getLeastLoadedThread();
+    public java.lang.Thread assignThread(User playerData) {
+        java.lang.Thread assignedThread = getLeastLoadedThread();
         playerThreadMap.put(playerData, assignedThread);
         return assignedThread;
     }
 
-    public Thread getPlayerThread(User playerData) {
+    public java.lang.Thread getPlayerThread(User playerData) {
         return playerThreadMap.get(playerData);
     }
 

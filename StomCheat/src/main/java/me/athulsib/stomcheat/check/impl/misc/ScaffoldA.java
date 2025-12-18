@@ -5,11 +5,8 @@ import me.athulsib.stomcheat.check.Check;
 import me.athulsib.stomcheat.check.CheckData;
 import me.athulsib.stomcheat.utils.PacketUtil;
 import net.minestom.server.coordinate.Point;
-import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.event.player.PlayerPacketEvent;
-import net.minestom.server.event.player.PlayerPacketOutEvent;
-import net.minestom.server.instance.block.Block;
 
 @CheckData(
         name = "Scaffold",

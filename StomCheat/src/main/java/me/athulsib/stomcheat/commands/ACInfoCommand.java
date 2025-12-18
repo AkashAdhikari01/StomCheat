@@ -1,7 +1,6 @@
 package me.athulsib.stomcheat.commands;
 
 import me.athulsib.stomcheat.StomCheat;
-import me.athulsib.stomcheat.check.Check;
 import me.athulsib.stomcheat.thread.Thread;
 import me.athulsib.stomcheat.thread.ThreadManager;
 import me.athulsib.stomcheat.user.User;
